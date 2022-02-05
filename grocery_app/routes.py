@@ -92,11 +92,11 @@ def store_detail(store_id):
 
         db.session.commit()
         flash('The store\'s info has been updated')
-        return redirect(url_for('main.store_detail', store_id=store.id))
+        return redirect(url_for('main.store_detail', store_id=store.id, store=store))
     # Send the form to the template and use it to render the form fields
     store = GroceryStore.query.get(store_id)
 
-    return render_template('store_detail.html', store=store)
+    return render_template('store_detail.html', store=store, form=form)
 
 
 @main.route('/item/<item_id>', methods=['GET', 'POST'])
@@ -116,8 +116,12 @@ def item_detail(item_id):
         item.price = form.price.data
         item.category = form.category.data
         item.photo_url = form.photo_url.data
-        return redirect(url_for('main.item_detail', item_id=item.id))
+        item.store = form.store.data
+        db.session.commit()
+
+        flash('Item details changed')
+        return redirect(url_for('main.item_detail', item_id=item.id, item=item))
     # Send the form to the template and use it to render the form fields
 
     item = GroceryItem.query.get(item_id)
-    return render_template('item_detail.html', item=item)
+    return render_template('item_detail.html', item=item, form=form)

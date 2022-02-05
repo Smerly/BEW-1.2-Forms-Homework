@@ -1,21 +1,25 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>New Store</h1>
 
 <form method="POST">
-    <fieldset>
-        <legend>Please enter your information:</legend>
+	<fieldset>
+		<legend>Please enter your information:</legend>
 
-
-
-        <!-- TODO: Remove the next paragraph and use the `form` object passed in 
+		<!-- TODO: Remove the next paragraph and use the `form` object passed in 
             from the route to render a form. -->
-        <p><em>Form fields go here!</em></p>
+		<!-- <p><em>Form fields go here!</em></p> -->
 
-        <input type="submit" value="Submit">
-    </fieldset>
+		<form method="POST" action="{{ url_for('main.new_store') }}">
+			{{ form.csrf_token }}
+			<header>Add new store</header>
+
+			{{ form.title.label }} {{ form.title}} {{ form.address.label }} {{
+			form.address }} {{ form.submit }}
+		</form>
+
+		<input type="submit" value="Submit" />
+	</fieldset>
 </form>
-
 
 {% endblock %}
