@@ -1,6 +1,7 @@
 """Utility classes & functions."""
 import enum
 
+
 class FormEnum(enum.Enum):
     """Helper class to make it easier to use enums with forms."""
     @classmethod
