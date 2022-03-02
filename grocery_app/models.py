@@ -4,10 +4,11 @@ from grocery_app.utils import FormEnum
 from flask_login import UserMixin
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
+    shopping_list_items = db.relationship('GroceryItem', secondary='shopping_table', back_populates='shopping_list')
 
 
 class ItemCategory(FormEnum):
@@ -42,3 +43,9 @@ class GroceryItem(db.Model):
     store = db.relationship('GroceryStore', back_populates='items')
     created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_by = db.relationship('User')
+    shopping_list = db.relationship('User', secondary='shipping_table' back_populates='shopping_list_items')
+
+shopping_list_table = db.Table('shopping_table',
+    db.Column('groceryitem_id', db.Integer, db.ForeignKey('grocery_item.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)

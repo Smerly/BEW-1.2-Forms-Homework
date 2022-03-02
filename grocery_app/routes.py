@@ -65,7 +65,7 @@ def new_item():
             name=form.name.data,
             price=form.price.data,
             category=form.category.data,
-            photo_url=form.photo_url.data
+            photo_url=form.photo_url.data,
             created_by=current_user
         )
 
@@ -168,6 +168,21 @@ def login():
         return redirect(next_page if next_page else url_for('main.homepage'))
     return render_template('login.html', form=form)
 
+@main.route('/add_to_shopping_list/<item_id>', methods=['POST'])
+def add_to_shopping_list(item_id):
+    user = current_user
+    new_item = GroceryItem.query.get(item_id)
+    user.shopping_list_items.append(item)
+    db.session.commit()
+    return redirect(url_for('main.item_detail', data=item.id))
+
+@main.route('/shopping_list')
+@login_required
+def shopping_list():
+    # ... get logged in user's shopping list items ...
+    user = current_user
+    # ... display shopping list items in a template ...
+    return render_template('shopping_list.html', shopping_items=user.shopping_list_items)
 
 @auth.route('/logout')
 @login_required
