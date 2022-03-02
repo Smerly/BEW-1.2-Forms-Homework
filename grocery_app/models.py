@@ -43,7 +43,7 @@ class GroceryItem(db.Model):
     store = db.relationship('GroceryStore', back_populates='items')
     created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     created_by = db.relationship('User')
-    shopping_list = db.relationship('User', secondary='shipping_table' back_populates='shopping_list_items')
+    shopping_list = db.relationship('User', secondary='shopping_table', back_populates='shopping_list_items')
 
 shopping_list_table = db.Table('shopping_table',
     db.Column('groceryitem_id', db.Integer, db.ForeignKey('grocery_item.id')),
